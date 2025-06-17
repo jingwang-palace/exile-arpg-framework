@@ -1,0 +1,375 @@
+{
+  "activeSkills": {
+    "heavy_strike": {
+      "id": "heavy_strike",
+      "name": "重击",
+      "description": "强力的近战攻击，造成额外的物理伤害并有几率击晕敌人。",
+      "type": "active",
+      "category": "melee",
+      "icon": "heavy_strike.png",
+      "manaCost": 6,
+      "cooldown": 0,
+      "castTime": 800,
+      "range": 150,
+      "areaOfEffect": 0,
+      "damage": {
+        "base": 120,
+        "scaling": 1.2,
+        "type": "physical"
+      },
+      "effects": [
+        {
+          "type": "stun",
+          "value": 0,
+          "duration": 1000,
+          "chance": 25
+        }
+      ],
+      "requirements": {
+        "level": 1,
+        "attributes": {
+          "strength": 12
+        },
+        "previousSkills": []
+      },
+      "levelProgression": [
+        {
+          "level": 1,
+          "damage": 120,
+          "manaCost": 6,
+          "cooldown": 0,
+          "additionalEffects": []
+        },
+        {
+          "level": 5,
+          "damage": 150,
+          "manaCost": 7,
+          "cooldown": 0,
+          "additionalEffects": [
+            {
+              "type": "stun",
+              "value": 0,
+              "duration": 1200,
+              "chance": 30
+            }
+          ]
+        }
+      ]
+    },
+    "fireball": {
+      "id": "fireball",
+      "name": "火球术",
+      "description": "发射一个燃烧的火球，对目标造成火焰伤害并在接触时爆炸。",
+      "type": "active",
+      "category": "spell",
+      "icon": "fireball.png",
+      "manaCost": 12,
+      "cooldown": 0,
+      "castTime": 850,
+      "range": 800,
+      "areaOfEffect": 200,
+      "damage": {
+        "base": 80,
+        "scaling": 1.5,
+        "type": "fire"
+      },
+      "effects": [
+        {
+          "type": "burn",
+          "value": 10,
+          "duration": 3000,
+          "chance": 100
+        }
+      ],
+      "requirements": {
+        "level": 1,
+        "attributes": {
+          "intelligence": 12
+        },
+        "previousSkills": []
+      },
+      "levelProgression": [
+        {
+          "level": 1,
+          "damage": 80,
+          "manaCost": 12,
+          "cooldown": 0,
+          "additionalEffects": []
+        },
+        {
+          "level": 5,
+          "damage": 120,
+          "manaCost": 14,
+          "cooldown": 0,
+          "additionalEffects": [
+            {
+              "type": "burn",
+              "value": 15,
+              "duration": 4000,
+              "chance": 100
+            }
+          ]
+        }
+      ]
+    },
+    "bow_shot": {
+      "id": "bow_shot",
+      "name": "弓箭射击",
+      "description": "精准的远程攻击，对远距离目标造成物理伤害。",
+      "type": "active",
+      "category": "ranged",
+      "icon": "bow_shot.png",
+      "manaCost": 4,
+      "cooldown": 0,
+      "castTime": 600,
+      "range": 1000,
+      "areaOfEffect": 0,
+      "damage": {
+        "base": 100,
+        "scaling": 1.0,
+        "type": "physical"
+      },
+      "effects": [],
+      "requirements": {
+        "level": 1,
+        "attributes": {
+          "dexterity": 12
+        },
+        "previousSkills": []
+      },
+      "levelProgression": [
+        {
+          "level": 1,
+          "damage": 100,
+          "manaCost": 4,
+          "cooldown": 0,
+          "additionalEffects": []
+        },
+        {
+          "level": 5,
+          "damage": 140,
+          "manaCost": 5,
+          "cooldown": 0,
+          "additionalEffects": []
+        }
+      ]
+    },
+    "frost_bolt": {
+      "id": "frost_bolt",
+      "name": "冰霜箭",
+      "description": "发射冰冷的弹丸，对敌人造成冰霜伤害并减缓其移动速度。",
+      "type": "active",
+      "category": "spell",
+      "icon": "frost_bolt.png",
+      "manaCost": 10,
+      "cooldown": 0,
+      "castTime": 700,
+      "range": 750,
+      "areaOfEffect": 0,
+      "damage": {
+        "base": 70,
+        "scaling": 1.3,
+        "type": "cold"
+      },
+      "effects": [
+        {
+          "type": "slow",
+          "value": 30,
+          "duration": 2000,
+          "chance": 100
+        }
+      ],
+      "requirements": {
+        "level": 1,
+        "attributes": {
+          "intelligence": 10
+        },
+        "previousSkills": []
+      },
+      "levelProgression": [
+        {
+          "level": 1,
+          "damage": 70,
+          "manaCost": 10,
+          "cooldown": 0,
+          "additionalEffects": []
+        }
+      ]
+    },
+    "lightning_strike": {
+      "id": "lightning_strike",
+      "name": "闪电打击",
+      "description": "用闪电充能的攻击，造成雷电伤害并有几率麻痹敌人。",
+      "type": "active",
+      "category": "melee",
+      "icon": "lightning_strike.png",
+      "manaCost": 8,
+      "cooldown": 0,
+      "castTime": 750,
+      "range": 200,
+      "areaOfEffect": 150,
+      "damage": {
+        "base": 90,
+        "scaling": 1.1,
+        "type": "lightning"
+      },
+      "effects": [
+        {
+          "type": "shock",
+          "value": 20,
+          "duration": 2000,
+          "chance": 40
+        }
+      ],
+      "requirements": {
+        "level": 4,
+        "attributes": {
+          "strength": 16,
+          "intelligence": 8
+        },
+        "previousSkills": ["heavy_strike"]
+      },
+      "levelProgression": [
+        {
+          "level": 4,
+          "damage": 90,
+          "manaCost": 8,
+          "cooldown": 0,
+          "additionalEffects": []
+        }
+      ]
+    }
+  },
+  "passiveSkills": {
+    "sword_mastery": {
+      "id": "sword_mastery",
+      "name": "剑术精通",
+      "description": "增加使用剑类武器时的伤害和攻击速度。",
+      "type": "passive",
+      "category": "weapon_mastery",
+      "icon": "sword_mastery.png",
+      "manaCost": 0,
+      "cooldown": 0,
+      "castTime": 0,
+      "range": 0,
+      "areaOfEffect": 0,
+      "damage": {
+        "base": 0,
+        "scaling": 0,
+        "type": "physical"
+      },
+      "effects": [
+        {
+          "type": "damage_increase",
+          "value": 12,
+          "chance": 100
+        },
+        {
+          "type": "attack_speed",
+          "value": 8,
+          "chance": 100
+        }
+      ],
+      "requirements": {
+        "level": 2,
+        "attributes": {
+          "strength": 14
+        },
+        "previousSkills": []
+      },
+      "levelProgression": []
+    },
+    "elemental_resistance": {
+      "id": "elemental_resistance",
+      "name": "元素抗性",
+      "description": "增加对火焰、冰霜和雷电伤害的抗性。",
+      "type": "passive",
+      "category": "defense",
+      "icon": "elemental_resistance.png",
+      "manaCost": 0,
+      "cooldown": 0,
+      "castTime": 0,
+      "range": 0,
+      "areaOfEffect": 0,
+      "damage": {
+        "base": 0,
+        "scaling": 0,
+        "type": "physical"
+      },
+      "effects": [
+        {
+          "type": "fire_resistance",
+          "value": 15,
+          "chance": 100
+        },
+        {
+          "type": "cold_resistance",
+          "value": 15,
+          "chance": 100
+        },
+        {
+          "type": "lightning_resistance",
+          "value": 15,
+          "chance": 100
+        }
+      ],
+      "requirements": {
+        "level": 3,
+        "attributes": {},
+        "previousSkills": []
+      },
+      "levelProgression": []
+    }
+  },
+  "supportGems": {
+    "melee_physical_damage": {
+      "id": "melee_physical_damage",
+      "name": "近战物理伤害辅助",
+      "description": "增加所辅助的近战技能的物理伤害。",
+      "type": "support",
+      "category": "damage",
+      "icon": "melee_physical_damage.png",
+      "effects": [
+        {
+          "type": "damage_multiplier",
+          "value": 1.3,
+          "chance": 100
+        }
+      ],
+      "supportedSkillTypes": ["melee"],
+      "requirements": {
+        "level": 8,
+        "attributes": {
+          "strength": 25
+        }
+      }
+    },
+    "spell_echo": {
+      "id": "spell_echo",
+      "name": "法术回音辅助",
+      "description": "使辅助的法术技能重复施放一次。",
+      "type": "support",
+      "category": "utility",
+      "icon": "spell_echo.png",
+      "effects": [
+        {
+          "type": "repeat_cast",
+          "value": 1,
+          "chance": 100
+        },
+        {
+          "type": "cast_speed",
+          "value": -10,
+          "chance": 100
+        }
+      ],
+      "supportedSkillTypes": ["spell"],
+      "requirements": {
+        "level": 12,
+        "attributes": {
+          "intelligence": 35
+        }
+      }
+    }
+  }
+} 

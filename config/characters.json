@@ -1,0 +1,164 @@
+{
+  "classes": {
+    "marauder": {
+      "id": "marauder",
+      "name": "野蛮人",
+      "description": "强壮的近战战士，精通力量和生命值。拥有强大的物理攻击能力和高生存能力。",
+      "startingAttributes": {
+        "strength": 32,
+        "dexterity": 16,
+        "intelligence": 14,
+        "vitality": 20
+      },
+      "startingSkills": ["heavy_strike", "enduring_cry"],
+      "ascendancyClasses": ["juggernaut", "berserker", "chieftain"],
+      "icon": "marauder_icon.png",
+      "themeColor": "#e74c3c",
+      "playstyle": "近战肉搏，高血量高护甲",
+      "difficulty": "beginner"
+    },
+    "duelist": {
+      "id": "duelist",
+      "name": "决斗者",
+      "description": "平衡的战士，既能近战也能远程。在力量和敏捷之间取得了完美的平衡。",
+      "startingAttributes": {
+        "strength": 24,
+        "dexterity": 24,
+        "intelligence": 14,
+        "vitality": 18
+      },
+      "startingSkills": ["double_strike", "cleave"],
+      "ascendancyClasses": ["gladiator", "champion", "slayer"],
+      "icon": "duelist_icon.png",
+      "themeColor": "#f39c12",
+      "playstyle": "灵活多样，攻守兼备",
+      "difficulty": "intermediate"
+    },
+    "ranger": {
+      "id": "ranger",
+      "name": "游侠",
+      "description": "敏捷的远程战士，擅长弓箭和快速移动。能够从安全距离造成大量伤害。",
+      "startingAttributes": {
+        "strength": 14,
+        "dexterity": 32,
+        "intelligence": 14,
+        "vitality": 16
+      },
+      "startingSkills": ["bow_shot", "evasion"],
+      "ascendancyClasses": ["deadeye", "pathfinder", "raider"],
+      "icon": "ranger_icon.png",
+      "themeColor": "#27ae60",
+      "playstyle": "远程输出，高机动性",
+      "difficulty": "intermediate"
+    },
+    "shadow": {
+      "id": "shadow",
+      "name": "暗影",
+      "description": "神秘的刺客，结合了敏捷和智力。能够使用致命的暴击和诡异的法术。",
+      "startingAttributes": {
+        "strength": 14,
+        "dexterity": 24,
+        "intelligence": 24,
+        "vitality": 16
+      },
+      "startingSkills": ["viper_strike", "stealth"],
+      "ascendancyClasses": ["assassin", "trickster", "saboteur"],
+      "icon": "shadow_icon.png",
+      "themeColor": "#8e44ad",
+      "playstyle": "暴击刺杀，法术辅助",
+      "difficulty": "advanced"
+    },
+    "witch": {
+      "id": "witch",
+      "name": "女巫",
+      "description": "强大的法师，掌握着元素魔法的力量。能够释放毁灭性的法术攻击。",
+      "startingAttributes": {
+        "strength": 14,
+        "dexterity": 14,
+        "intelligence": 32,
+        "vitality": 16
+      },
+      "startingSkills": ["fireball", "frost_bolt"],
+      "ascendancyClasses": ["necromancer", "elementalist", "occultist"],
+      "icon": "witch_icon.png",
+      "themeColor": "#3498db",
+      "playstyle": "远程法术，元素伤害",
+      "difficulty": "intermediate"
+    },
+    "templar": {
+      "id": "templar",
+      "name": "圣堂武士",
+      "description": "神圣的战士法师，结合了力量和智力。既能近战又能使用神圣法术。",
+      "startingAttributes": {
+        "strength": 24,
+        "dexterity": 14,
+        "intelligence": 24,
+        "vitality": 18
+      },
+      "startingSkills": ["smite", "holy_light"],
+      "ascendancyClasses": ["guardian", "hierophant", "inquisitor"],
+      "icon": "templar_icon.png",
+      "themeColor": "#f1c40f",
+      "playstyle": "神圣战士，法术近战",
+      "difficulty": "advanced"
+    },
+    "scion": {
+      "id": "scion",
+      "name": "贵族",
+      "description": "全能的混合职业，可以发展成任何方向。拥有最高的自由度和成长潜力。",
+      "startingAttributes": {
+        "strength": 20,
+        "dexterity": 20,
+        "intelligence": 20,
+        "vitality": 18
+      },
+      "startingSkills": ["basic_attack"],
+      "ascendancyClasses": ["ascendant"],
+      "icon": "scion_icon.png",
+      "themeColor": "#95a5a6",
+      "playstyle": "全能发展，高度自由",
+      "difficulty": "advanced"
+    }
+  },
+  "ascendancies": {
+    "juggernaut": {
+      "id": "juggernaut",
+      "name": "无敌斗士",
+      "description": "坚不可摧的防御型升华，专注于护甲和生命值。",
+      "baseClass": "marauder",
+      "bonuses": {
+        "armor": 50,
+        "health": 100,
+        "resistances": 20
+      },
+      "passiveNodes": ["unstoppable", "unbreakable", "unflinching"],
+      "questLine": "trial_of_strength"
+    },
+    "berserker": {
+      "id": "berserker",
+      "name": "狂战士",
+      "description": "疯狂的攻击型升华，用生命换取极致的伤害输出。",
+      "baseClass": "marauder",
+      "bonuses": {
+        "damage": 80,
+        "attackSpeed": 30,
+        "leech": 5
+      },
+      "passiveNodes": ["rage", "berserking", "endless_hunger"],
+      "questLine": "trial_of_fury"
+    },
+    "chieftain": {
+      "id": "chieftain",
+      "name": "酋长",
+      "description": "火焰大师，将力量转化为火焰伤害和图腾力量。",
+      "baseClass": "marauder",
+      "bonuses": {
+        "fireDamage": 60,
+        "totemLife": 100,
+        "regeneration": 5
+      },
+      "passiveNodes": ["fire_mastery", "totem_mastery", "ancestral_bond"],
+      "questLine": "trial_of_fire"
+    }
+  }
+} 

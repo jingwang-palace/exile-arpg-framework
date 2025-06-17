@@ -1,0 +1,24 @@
+{
+  "name": "exile-arpg-framework",
+  "version": "1.0.0",
+  "description": "流放ARPG框架 - 基于TypeScript的高度可配置ARPG游戏开发框架",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "start": "tsx -r tsconfig-paths/register src/server/index.ts",
+    "dev": "tsx -r tsconfig-paths/register watch src/server/index.ts",
+    "build": "tsc",
+    "test": "tsx -r tsconfig-paths/register scripts/test.ts",
+    "test:watch": "tsx -r tsconfig-paths/register watch scripts/test.ts"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.11.19",
+    "tsx": "^4.7.1",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.3.3"
+  }
+}

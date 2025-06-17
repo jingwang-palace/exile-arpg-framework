@@ -1,0 +1,223 @@
+{
+  "meta": {
+    "title": "像素风流放之路",
+    "version": "1.0.0",
+    "author": "Your Studio",
+    "description": "一款像素风格的ARPG游戏，灵感来源于流放之路",
+    "genre": "ARPG",
+    "targetAudience": "16+",
+    "supportedLanguages": ["zh-CN", "en-US"],
+    "defaultLanguage": "zh-CN"
+  },
+  "engine": {
+    "phaser": {
+      "width": 1920,
+      "height": 1080,
+      "backgroundColor": "#2c3e50",
+      "physics": {
+        "default": "arcade",
+        "arcade": {
+          "gravity": { "y": 0 },
+          "debug": false
+        }
+      },
+      "scale": {
+        "mode": "RESIZE",
+        "autoCenter": "CENTER_BOTH"
+      }
+    },
+    "performance": {
+      "maxFPS": 60,
+      "enableVSync": true,
+      "particleLimit": 1000,
+      "soundChannels": 32
+    },
+    "debug": {
+      "showFPS": false,
+      "showCollisionBoxes": false,
+      "enableConsoleLogging": true,
+      "logLevel": "info"
+    }
+  },
+  "ui": {
+    "theme": {
+      "primaryColor": "#3498db",
+      "secondaryColor": "#e74c3c",
+      "backgroundColor": "#2c3e50",
+      "textColor": "#ecf0f1",
+      "borderColor": "#34495e",
+      "hoverColor": "#3498db",
+      "fonts": {
+        "primary": "Arial, sans-serif",
+        "secondary": "Courier New, monospace",
+        "monospace": "Consolas, monospace"
+      },
+      "iconSet": "pixel-icons"
+    },
+    "layout": {
+      "headerHeight": 60,
+      "sidebarWidth": 300,
+      "footerHeight": 40,
+      "panelPadding": 20,
+      "buttonSpacing": 10,
+      "gridSize": 32
+    },
+    "animations": {
+      "transitionDuration": 300,
+      "easeType": "ease-in-out",
+      "hoverScale": 1.05,
+      "clickScale": 0.95,
+      "fadeSpeed": 500
+    },
+    "responsive": {
+      "breakpoints": {
+        "mobile": 768,
+        "tablet": 1024,
+        "desktop": 1440,
+        "ultrawide": 2560
+      },
+      "scaleFactor": 1.0,
+      "minWidth": 1024,
+      "minHeight": 768
+    }
+  },
+  "balance": {
+    "character": {
+      "baseAttributes": {
+        "health": 100,
+        "mana": 50,
+        "strength": 10,
+        "dexterity": 10,
+        "intelligence": 10,
+        "vitality": 10
+      },
+      "levelingCurve": {
+        "experienceBase": 100,
+        "experienceMultiplier": 1.5,
+        "maxLevel": 100,
+        "attributePointsPerLevel": 5,
+        "skillPointsPerLevel": 1
+      },
+      "attributeEffects": {
+        "strengthDamageMultiplier": 1.0,
+        "dexteritySpeedMultiplier": 0.02,
+        "intelligenceManaMultiplier": 2.0,
+        "vitalityHealthMultiplier": 5.0
+      }
+    },
+    "combat": {
+      "damageFormulas": {
+        "physicalDamageBase": 10,
+        "magicalDamageBase": 12,
+        "criticalChanceBase": 5,
+        "criticalMultiplier": 1.5,
+        "armorReduction": 0.1,
+        "resistanceReduction": 0.1
+      },
+      "timing": {
+        "attackSpeed": 1.0,
+        "castSpeed": 1.0,
+        "recoveryTime": 500,
+        "invulnerabilityFrames": 300
+      },
+      "statusEffects": {
+        "poisonDamagePerSecond": 5,
+        "burnDamagePerSecond": 8,
+        "freezeDuration": 2000,
+        "stunDuration": 1000
+      }
+    },
+    "economy": {
+      "currency": {
+        "goldDropRate": 0.8,
+        "currencyDropRates": {
+          "scroll_of_wisdom": 0.3,
+          "portal_scroll": 0.25,
+          "orb_of_transmutation": 0.2,
+          "orb_of_alteration": 0.1,
+          "orb_of_alchemy": 0.08,
+          "chaos_orb": 0.05,
+          "exalted_orb": 0.015,
+          "divine_orb": 0.005
+        },
+        "vendorPrices": {
+          "scroll_of_wisdom": 1,
+          "portal_scroll": 1,
+          "orb_of_transmutation": 4
+        },
+        "stackSizes": {
+          "scroll_of_wisdom": 40,
+          "portal_scroll": 40,
+          "orb_of_transmutation": 40,
+          "orb_of_alteration": 20,
+          "orb_of_alchemy": 10,
+          "chaos_orb": 10,
+          "exalted_orb": 10,
+          "divine_orb": 10
+        }
+      },
+      "trading": {
+        "taxRate": 0.05,
+        "maxListings": 10,
+        "listingDuration": 86400000
+      }
+    },
+    "progression": {
+      "quests": {
+        "experienceRewardMultiplier": 1.0,
+        "goldRewardMultiplier": 1.0,
+        "talentPointRewards": {
+          "story": 1,
+          "challenge": 2,
+          "ascendancy": 3
+        }
+      },
+      "areas": {
+        "monsterLevelScaling": 1.0,
+        "dropRateBonus": 0.0,
+        "experienceBonus": 0.0
+      }
+    }
+  },
+  "features": {
+    "enabledFeatures": [
+      "character_creation",
+      "skill_system",
+      "talent_system",
+      "equipment_system",
+      "currency_system",
+      "quest_system",
+      "ascendancy_system",
+      "skin_system",
+      "audio_system",
+      "save_system"
+    ],
+    "monetization": {
+      "enableSkinShop": true,
+      "enableBattlePass": false,
+      "enablePremiumCurrency": true,
+      "skinCategories": ["weapon", "armor", "skill_effects", "character"],
+      "pricingTiers": {
+        "common": 100,
+        "rare": 500,
+        "epic": 1000,
+        "legendary": 2000
+      }
+    },
+    "social": {
+      "enableFriends": false,
+      "enableGuilds": false,
+      "enableChat": false,
+      "enableLeaderboards": true,
+      "maxFriends": 50,
+      "maxGuildMembers": 100
+    },
+    "accessibility": {
+      "enableColorBlindSupport": true,
+      "enableSubtitles": true,
+      "enableScreenReader": false,
+      "fontSizeMultiplier": 1.0,
+      "contrastMode": false
+    }
+  }
+} 

@@ -1,0 +1,425 @@
+{
+  "monsters": {
+    "zombie": {
+      "id": "zombie",
+      "name": "腐朽僵尸",
+      "type": "undead",
+      "level": 1,
+      "health": 80,
+      "mana": 0,
+      "damage": 15,
+      "armor": 5,
+      "resistances": {
+        "physical": 0,
+        "fire": -25,
+        "cold": 50,
+        "lightning": 0,
+        "chaos": 75
+      },
+      "speed": 0.8,
+      "attackSpeed": 0.9,
+      "skills": ["zombie_slam"],
+      "ai": {
+        "aggroRange": 300,
+        "chaseRange": 500,
+        "behaviorType": "aggressive",
+        "abilities": [
+          {
+            "id": "zombie_slam",
+            "name": "僵尸重击",
+            "cooldown": 3000,
+            "trigger": "close_combat",
+            "effect": "melee_attack_heavy"
+          }
+        ]
+      },
+      "drops": [
+        {
+          "itemId": "gold",
+          "quantity": [1, 5],
+          "chance": 0.8
+        },
+        {
+          "itemId": "zombie_bone",
+          "quantity": 1,
+          "chance": 0.3
+        },
+        {
+          "itemId": "scroll_of_wisdom",
+          "quantity": 1,
+          "chance": 0.2
+        }
+      ],
+      "experience": 15,
+      "sprite": {
+        "sheet": "zombie_spritesheet.png",
+        "animations": {
+          "idle": {
+            "frames": [0, 1, 2, 3],
+            "frameRate": 4,
+            "repeat": true
+          },
+          "walk": {
+            "frames": [4, 5, 6, 7],
+            "frameRate": 6,
+            "repeat": true
+          },
+          "attack": {
+            "frames": [8, 9, 10, 11],
+            "frameRate": 8,
+            "repeat": false
+          },
+          "death": {
+            "frames": [12, 13, 14, 15],
+            "frameRate": 6,
+            "repeat": false
+          }
+        }
+      },
+      "sounds": {
+        "attack": ["zombie_attack1.wav", "zombie_attack2.wav"],
+        "hurt": ["zombie_hurt1.wav"],
+        "death": ["zombie_death1.wav"],
+        "idle": ["zombie_groan1.wav", "zombie_groan2.wav"]
+      }
+    },
+    "skeleton_warrior": {
+      "id": "skeleton_warrior",
+      "name": "骷髅战士",
+      "type": "undead",
+      "level": 3,
+      "health": 120,
+      "mana": 0,
+      "damage": 25,
+      "armor": 15,
+      "resistances": {
+        "physical": 10,
+        "fire": -20,
+        "cold": 25,
+        "lightning": 0,
+        "chaos": 60
+      },
+      "speed": 1.2,
+      "attackSpeed": 1.1,
+      "skills": ["sword_slash", "shield_bash"],
+      "ai": {
+        "aggroRange": 400,
+        "chaseRange": 600,
+        "behaviorType": "tactical",
+        "abilities": [
+          {
+            "id": "sword_slash",
+            "name": "剑击",
+            "cooldown": 2000,
+            "trigger": "melee_range",
+            "effect": "melee_attack"
+          },
+          {
+            "id": "shield_bash",
+            "name": "盾击",
+            "cooldown": 5000,
+            "trigger": "low_health",
+            "effect": "stun_attack"
+          }
+        ]
+      },
+      "drops": [
+        {
+          "itemId": "gold",
+          "quantity": [3, 8],
+          "chance": 0.9
+        },
+        {
+          "itemId": "rusty_sword",
+          "quantity": 1,
+          "chance": 0.1
+        },
+        {
+          "itemId": "bone_fragment",
+          "quantity": [1, 2],
+          "chance": 0.4
+        }
+      ],
+      "experience": 35,
+      "sprite": {
+        "sheet": "skeleton_warrior_spritesheet.png",
+        "animations": {
+          "idle": {
+            "frames": [0, 1, 2, 3],
+            "frameRate": 4,
+            "repeat": true
+          },
+          "walk": {
+            "frames": [4, 5, 6, 7],
+            "frameRate": 8,
+            "repeat": true
+          },
+          "attack": {
+            "frames": [8, 9, 10, 11],
+            "frameRate": 10,
+            "repeat": false
+          },
+          "shield_bash": {
+            "frames": [12, 13, 14, 15],
+            "frameRate": 8,
+            "repeat": false
+          },
+          "death": {
+            "frames": [16, 17, 18, 19],
+            "frameRate": 6,
+            "repeat": false
+          }
+        }
+      },
+      "sounds": {
+        "attack": ["skeleton_attack1.wav", "skeleton_attack2.wav"],
+        "hurt": ["skeleton_hurt1.wav"],
+        "death": ["skeleton_death1.wav"],
+        "idle": ["skeleton_rattle1.wav"]
+      }
+    },
+    "fire_imp": {
+      "id": "fire_imp",
+      "name": "火焰小鬼",
+      "type": "demon",
+      "level": 5,
+      "health": 60,
+      "mana": 40,
+      "damage": 30,
+      "armor": 0,
+      "resistances": {
+        "physical": 0,
+        "fire": 75,
+        "cold": -50,
+        "lightning": 10,
+        "chaos": 30
+      },
+      "speed": 1.5,
+      "attackSpeed": 1.3,
+      "skills": ["fire_bolt", "flame_dash"],
+      "ai": {
+        "aggroRange": 500,
+        "chaseRange": 700,
+        "behaviorType": "ranged_caster",
+        "abilities": [
+          {
+            "id": "fire_bolt",
+            "name": "火焰弹",
+            "cooldown": 2500,
+            "trigger": "ranged_combat",
+            "effect": "fire_projectile"
+          },
+          {
+            "id": "flame_dash",
+            "name": "火焰冲刺",
+            "cooldown": 6000,
+            "trigger": "player_close",
+            "effect": "teleport_away"
+          }
+        ]
+      },
+      "drops": [
+        {
+          "itemId": "gold",
+          "quantity": [2, 6],
+          "chance": 0.85
+        },
+        {
+          "itemId": "fire_essence",
+          "quantity": 1,
+          "chance": 0.5
+        },
+        {
+          "itemId": "orb_of_transmutation",
+          "quantity": 1,
+          "chance": 0.15
+        }
+      ],
+      "experience": 50,
+      "sprite": {
+        "sheet": "fire_imp_spritesheet.png",
+        "animations": {
+          "idle": {
+            "frames": [0, 1, 2, 3, 4, 5],
+            "frameRate": 8,
+            "repeat": true
+          },
+          "walk": {
+            "frames": [6, 7, 8, 9],
+            "frameRate": 10,
+            "repeat": true
+          },
+          "cast": {
+            "frames": [10, 11, 12, 13],
+            "frameRate": 8,
+            "repeat": false
+          },
+          "teleport": {
+            "frames": [14, 15, 16, 17, 18],
+            "frameRate": 12,
+            "repeat": false
+          },
+          "death": {
+            "frames": [19, 20, 21, 22],
+            "frameRate": 6,
+            "repeat": false
+          }
+        }
+      },
+      "sounds": {
+        "attack": ["imp_cast1.wav", "imp_cast2.wav"],
+        "hurt": ["imp_hurt1.wav"],
+        "death": ["imp_death1.wav"],
+        "idle": ["imp_chatter1.wav", "imp_chatter2.wav"]
+      }
+    },
+    "boss_necromancer": {
+      "id": "boss_necromancer",
+      "name": "邪恶死灵法师",
+      "type": "boss",
+      "level": 10,
+      "health": 800,
+      "mana": 200,
+      "damage": 50,
+      "armor": 25,
+      "resistances": {
+        "physical": 20,
+        "fire": 10,
+        "cold": 30,
+        "lightning": 15,
+        "chaos": 80
+      },
+      "speed": 1.0,
+      "attackSpeed": 0.8,
+      "skills": ["summon_skeletons", "bone_spear", "curse", "death_nova"],
+      "ai": {
+        "aggroRange": 800,
+        "chaseRange": 1000,
+        "behaviorType": "boss",
+        "abilities": [
+          {
+            "id": "summon_skeletons",
+            "name": "召唤骷髅",
+            "cooldown": 15000,
+            "trigger": "combat_start",
+            "effect": "summon_minions"
+          },
+          {
+            "id": "bone_spear",
+            "name": "骨矛",
+            "cooldown": 3000,
+            "trigger": "ranged_combat",
+            "effect": "piercing_projectile"
+          },
+          {
+            "id": "curse",
+            "name": "诅咒",
+            "cooldown": 8000,
+            "trigger": "player_visible",
+            "effect": "debuff_player"
+          },
+          {
+            "id": "death_nova",
+            "name": "死亡新星",
+            "cooldown": 20000,
+            "trigger": "low_health",
+            "effect": "area_explosion"
+          }
+        ]
+      },
+      "drops": [
+        {
+          "itemId": "gold",
+          "quantity": [50, 100],
+          "chance": 1.0
+        },
+        {
+          "itemId": "necromancer_staff",
+          "quantity": 1,
+          "chance": 0.8
+        },
+        {
+          "itemId": "chaos_orb",
+          "quantity": 1,
+          "chance": 0.3
+        },
+        {
+          "itemId": "skill_book_summon",
+          "quantity": 1,
+          "chance": 0.6
+        }
+      ],
+      "experience": 250,
+      "sprite": {
+        "sheet": "necromancer_boss_spritesheet.png",
+        "animations": {
+          "idle": {
+            "frames": [0, 1, 2, 3],
+            "frameRate": 4,
+            "repeat": true
+          },
+          "walk": {
+            "frames": [4, 5, 6, 7],
+            "frameRate": 6,
+            "repeat": true
+          },
+          "cast": {
+            "frames": [8, 9, 10, 11, 12],
+            "frameRate": 8,
+            "repeat": false
+          },
+          "summon": {
+            "frames": [13, 14, 15, 16, 17, 18],
+            "frameRate": 6,
+            "repeat": false
+          },
+          "death": {
+            "frames": [19, 20, 21, 22, 23],
+            "frameRate": 5,
+            "repeat": false
+          }
+        }
+      },
+      "sounds": {
+        "attack": ["necro_cast1.wav", "necro_cast2.wav"],
+        "hurt": ["necro_hurt1.wav"],
+        "death": ["necro_death1.wav"],
+        "idle": ["necro_chant1.wav"],
+        "summon": ["necro_summon1.wav"]
+      }
+    }
+  },
+  "spawnGroups": {
+    "cemetery_pack": {
+      "id": "cemetery_pack",
+      "name": "墓地怪群",
+      "monsters": [
+        {
+          "id": "zombie",
+          "count": [2, 4],
+          "weight": 60
+        },
+        {
+          "id": "skeleton_warrior",
+          "count": [1, 2],
+          "weight": 40
+        }
+      ],
+      "levelVariance": 1,
+      "spawnRadius": 200
+    },
+    "demon_patrol": {
+      "id": "demon_patrol",
+      "name": "恶魔巡逻队",
+      "monsters": [
+        {
+          "id": "fire_imp",
+          "count": [1, 3],
+          "weight": 100
+        }
+      ],
+      "levelVariance": 2,
+      "spawnRadius": 150
+    }
+  }
+} 

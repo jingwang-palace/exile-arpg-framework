@@ -1,0 +1,19 @@
+:root {
+  /* 颜色系统 */
+  --color-primary: theme('colors.blue.500');
+  --color-primary-hover: theme('colors.blue.600');
+  
+  /* 背景色 - 调暗一些让文字更显眼 */
+  --bg-primary: theme('colors.gray.950');    /* 更深的背景 */
+  --bg-secondary: theme('colors.gray.900');  /* 更深的次要背景 */
+  --bg-tertiary: theme('colors.gray.800');   /* 更深的第三级背景 */
+  
+  /* 文字颜色 - 增加对比度 */
+  --text-primary: theme('colors.gray.100');    /* 近乎白色 */
+  --text-secondary: theme('colors.gray.200');  /* 更亮的次要文本 */
+  --text-tertiary: theme('colors.gray.300');   /* 更亮的第三级文本 */
+  
+  /* 边框颜色 - 调亮一些 */
+  --border-primary: theme('colors.gray.600');
+  --border-secondary: theme('colors.gray.500');
+} 

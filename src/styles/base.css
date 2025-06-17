@@ -1,0 +1,36 @@
+@import './theme.css';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .page-container {
+    @apply min-h-screen bg-page;
+  }
+
+  .card {
+    @apply bg-card rounded-lg p-6 border border-primary;
+  }
+
+  .input-primary {
+    @apply block w-full rounded-md bg-input 
+           border-input text-[--text-primary] shadow-sm 
+           focus:border-primary-accent focus:ring-primary-accent;
+  }
+
+  .btn-primary {
+    @apply px-8 py-3 bg-primary text-[--text-primary] rounded-lg font-medium shadow-lg 
+           hover:bg-primary-hover focus:outline-none focus:ring-2 
+           focus:ring-primary-accent focus:ring-offset-2 
+           focus:ring-offset-page disabled:bg-disabled 
+           disabled:cursor-not-allowed transition-all duration-200;
+  }
+
+  .heading-primary {
+    @apply text-4xl font-bold text-[--text-primary] mb-2;
+  }
+
+  .heading-secondary {
+    @apply text-xl font-medium text-[--text-primary] mb-6;
+  }
+} 

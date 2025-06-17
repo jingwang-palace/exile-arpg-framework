@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>像素风流放之路 - 资源生成器</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #1a1a2e;
+      color: #e6e6e6;
+      padding: 20px;
+      text-align: center;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .section {
+      margin-bottom: 30px;
+      background-color: #16213e;
+      padding: 20px;
+      border-radius: 8px;
+    }
+    h1 {
+      color: #ff9800;
+    }
+    h2 {
+      color: #4cc9f0;
+    }
+    canvas {
+      border: 1px solid #444;
+      margin: 10px;
+      background-color: #333;
+    }
+    button {
+      background-color: #4361ee;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      margin: 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    button:hover {
+      background-color: #3a0ca3;
+    }
+    .instructions {
+      text-align: left;
+      margin: 20px;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>像素风流放之路 - 资源生成器</h1>
+    
+    <div class="section">
+      <h2>地图瓦片集</h2>
+      <canvas id="tilesetCanvas" width="512" height="256"></canvas>
+      <br>
+      <button id="downloadTileset">下载瓦片集 (dungeon.png)</button>
+    </div>
+
+    <div class="section">
+      <h2>角色精灵图</h2>
+      <canvas id="playerCanvas" width="768" height="192"></canvas>
+      <br>
+      <button id="downloadPlayer">下载角色精灵图 (player.png)</button>
+    </div>
+
+    <div class="section">
+      <h2>游戏Logo</h2>
+      <canvas id="logoCanvas" width="512" height="256"></canvas>
+      <br>
+      <button id="downloadLogo">下载Logo (logo.png)</button>
+    </div>
+  </div>
+
+  <script>
+    // 基础绘制函数
+    function drawGrid(ctx, width, height, tileSize) {
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+      ctx.lineWidth = 0.5;
+      
+      // 垂直线
+      for (let x = 0; x <= width; x += tileSize) {
+        ctx.beginPath();
+        ctx.moveTo(x, 0);
+        ctx.lineTo(x, height);
+        ctx.stroke();
+      }
+      
+      // 水平线
+      for (let y = 0; y <= height; y += tileSize) {
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(width, y);
+        ctx.stroke();
+      }
+    }
+    
+    // 绘制瓦片集
+    function drawTileset() {
+      const canvas = document.getElementById('tilesetCanvas');
+      const ctx = canvas.getContext('2d');
+      const tileSize = 32;
+      
+      // 清除画布
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      
+      // 基础地板系列 (第一行)
+      const floorColors = ['#8B4513', '#A0522D', '#CD853F', '#D2B48C', '#DEB887', '#F5DEB3', '#FAEBD7', '#F0E68C'];
+      for (let i = 0; i < floorColors.length; i++) {
+        ctx.fillStyle = floorColors[i];
+        ctx.fillRect(i * tileSize, 0, tileSize, tileSize);
+        
+        // 添加一些随机纹理点
+        ctx.fillStyle = addColorShade(floorColors[i], -30);
+        for (let j = 0; j < 5; j++) {
+          const dotX = i * tileSize + Math.random() * (tileSize - 4);
+          const dotY = Math.random() * (tileSize - 4);
+          const dotSize = 1 + Math.random() * 3;
+          ctx.fillRect(dotX, dotY, dotSize, dotSize);
+        }
+      }
+      
+      // 石墙系列 (第二行)
+      const wallColors = ['#696969', '#778899', '#708090', '#A9A9A9', '#808080', '#C0C0C0'];
+      for (let i = 0; i < wallColors.length; i++) {
+        ctx.fillStyle = wallColors[i];
+        ctx.fillRect(i * tileSize, tileSize, tileSize, tileSize);
+        
+        // 添加石头纹理
+        ctx.strokeStyle = addColorShade(wallColors[i], -50);
+        ctx.lineWidth = 1;
+        
+        // 随机的石头块图案
+        for (let j = 0; j < 4; j++) {
+          const blockX = i * tileSize + 2 + Math.random() * 10;
+          const blockY = tileSize + 2 + Math.random() * 10;
+          const blockW = 6 + Math.random() * 14;
+          const blockH = 4 + Math.random() * 10;
+          ctx.strokeRect(blockX, blockY, blockW, blockH);
+        }
+      }
+      
+      // 木制结构 (第三行)
+      const woodColors = ['#8B4513', '#A0522D', '#CD853F', '#D2691E', '#8B5A2B', '#DAA520'];
+      for (let i = 0; i < woodColors.length; i++) {
+        // 背景填充
+        ctx.fillStyle = woodColors[i];
+        ctx.fillRect(i * tileSize, 2 * tileSize, tileSize, tileSize);
+        
+        // 木纹
+        ctx.strokeStyle = addColorShade(woodColors[i], -40);
+        ctx.lineWidth = 1;
+        
+        // 水平木纹
+        for (let j = 0; j < 4; j++) {
+          ctx.beginPath();
+          ctx.moveTo(i * tileSize, 2 * tileSize + 4 + j * 8);
+          ctx.lineTo(i * tileSize + tileSize, 2 * tileSize + 4 + j * 8);
+          ctx.stroke();
+        }
+      }
+      
+      // 特殊瓦片 (第四行)
+      // 门
+      ctx.fillStyle = '#8B4513';
+      ctx.fillRect(0, 3 * tileSize, tileSize, tileSize);
+      ctx.strokeStyle = '#000';
+      ctx.lineWidth = 2;
+      ctx.strokeRect(4, 3 * tileSize + 2, 24, 28);
+      ctx.fillStyle = '#C0C0C0';
+      ctx.fillRect(22, 3 * tileSize + 14, 4, 4); // 门把手
+      
+      // 宝箱
+      ctx.fillStyle = '#8B4513';
+      ctx.fillRect(tileSize, 3 * tileSize, tileSize, tileSize);
+      ctx.strokeStyle = '#000';
+      ctx.strokeRect(tileSize + 2, 3 * tileSize + 8, 28, 20);
+      ctx.fillStyle = '#FFD700';
+      ctx.fillRect(tileSize + 14, 3 * tileSize + 18, 4, 4); // 锁
+      
+      // 水
+      ctx.fillStyle = '#4169E1';
+      ctx.fillRect(2 * tileSize, 3 * tileSize, tileSize, tileSize);
+      for (let i = 0; i < 5; i++) {
+        ctx.fillStyle = 'rgba(173, 216, 230, 0.5)';
+        const waveX = 2 * tileSize + Math.random() * tileSize;
+        const waveY = 3 * tileSize + Math.random() * tileSize;
+        const waveSize = 2 + Math.random() * 4;
+        ctx.beginPath();
+        ctx.arc(waveX, waveY, waveSize, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      
+      // 熔岩
+      ctx.fillStyle = '#FF4500';
+      ctx.fillRect(3 * tileSize, 3 * tileSize, tileSize, tileSize);
+      for (let i = 0; i < 8; i++) {
+        ctx.fillStyle = '#FFFF00';
+        const bubbleX = 3 * tileSize + Math.random() * tileSize;
+        const bubbleY = 3 * tileSize + Math.random() * tileSize;
+        const bubbleSize = 1 + Math.random() * 3;
+        ctx.beginPath();
+        ctx.arc(bubbleX, bubbleY, bubbleSize, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      
+      // 草地
+      ctx.fillStyle = '#228B22';
+      ctx.fillRect(4 * tileSize, 3 * tileSize, tileSize, tileSize);
+      for (let i = 0; i < 10; i++) {
+        ctx.fillStyle = '#32CD32';
+        const grassX = 4 * tileSize + Math.random() * tileSize;
+        const grassHeight = 3 + Math.random() * 5;
+        ctx.fillRect(grassX, 3 * tileSize + tileSize - grassHeight, 2, grassHeight);
+      }
+      
+      // 洞穴地面
+      ctx.fillStyle = '#5D4037';
+      ctx.fillRect(5 * tileSize, 3 * tileSize, tileSize, tileSize);
+      for (let i = 0; i < 6; i++) {
+        ctx.fillStyle = '#3E2723';
+        const stoneX = 5 * tileSize + 5 + Math.random() * 20;
+        const stoneY = 3 * tileSize + 5 + Math.random() * 20;
+        const stoneSize = 2 + Math.random() * 4;
+        ctx.beginPath();
+        ctx.arc(stoneX, stoneY, stoneSize, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      
+      // 环境元素 (第五行)
+      // 火炬
+      ctx.fillStyle = '#8B4513';
+      ctx.fillRect(0, 4 * tileSize, tileSize, tileSize);
+      // 火炬杆
+      ctx.fillStyle = '#A0522D';
+      ctx.fillRect(0 + tileSize/2 - 2, 4 * tileSize + 10, 4, 20);
+      // 火焰
+      ctx.fillStyle = '#FF4500';
+      ctx.beginPath();
+      ctx.arc(tileSize/2, 4 * tileSize + 10, 6, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = '#FFFF00';
+      ctx.beginPath();
+      ctx.arc(tileSize/2, 4 * tileSize + 10, 3, 0, Math.PI * 2);
+      ctx.fill();
+      
+      // 图书馆书架
+      ctx.fillStyle = '#8B4513';
+      ctx.fillRect(tileSize, 4 * tileSize, tileSize, tileSize);
+      for (let i = 0; i < 3; i++) {
+        for (let j = 0; j < 6; j++) {
+          ctx.fillStyle = ['#FF0000', '#0000FF', '#008000', '#800080', '#FFA500', '#A52A2A'][Math.floor(Math.random() * 6)];
+          ctx.fillRect(tileSize + 2 + j * 5, 4 * tileSize + 2 + i * 10, 4, 8);
+        }
+      }
+      
+      // 桌子
+      ctx.fillStyle = '#8B4513';
+      ctx.fillRect(2 * tileSize, 4 * tileSize, tileSize, tileSize);
+      ctx.fillStyle = '#D2B48C';
+      ctx.fillRect(2 * tileSize + 2, 4 * tileSize + 10, 28, 12);
+      ctx.fillStyle = '#A0522D';
+      ctx.fillRect(2 * tileSize + 4, 4 * tileSize + 22, 4, 10);
+      ctx.fillRect(2 * tileSize + 24, 4 * tileSize + 22, 4, 10);
+      
+      // 椅子
+      ctx.fillStyle = '#8B4513';
+      ctx.fillRect(3 * tileSize, 4 * tileSize, tileSize, tileSize);
+      ctx.fillStyle = '#D2B48C';
+      ctx.fillRect(3 * tileSize + 8, 4 * tileSize + 12, 16, 16);
+      ctx.fillStyle = '#A0522D';
+      ctx.fillRect(3 * tileSize + 10, 4 * tileSize + 28, 3, 4);
+      ctx.fillRect(3 * tileSize + 19, 4 * tileSize + 28, 3, 4);
+      ctx.fillRect(3 * tileSize + 14, 4 * tileSize + 2, 4, 10);
+      
+      // 岩浆池
+      ctx.fillStyle = '#FF4500';
+      ctx.fillRect(4 * tileSize, 4 * tileSize, tileSize, tileSize);
+      ctx.fillStyle = '#8B4513';
+      ctx.fillRect(4 * tileSize, 4 * tileSize, 4, tileSize);
+      ctx.fillRect(4 * tileSize + tileSize - 4, 4 * tileSize, 4, tileSize);
+      ctx.fillRect(4 * tileSize + 4, 4 * tileSize, tileSize - 8, 4);
+      ctx.fillRect(4 * tileSize + 4, 4 * tileSize + tileSize - 4, tileSize - 8, 4);
+      
+      // 楼梯
+      ctx.fillStyle = '#A9A9A9';
+      ctx.fillRect(5 * tileSize, 4 * tileSize, tileSize, tileSize);
+      for (let i = 0; i < 6; i++) {
+        ctx.fillStyle = i % 2 === 0 ? '#808080' : '#696969';
+        ctx.fillRect(5 * tileSize, 4 * tileSize + i * 5, tileSize, 5);
+      }
+      
+      // 道路系列 (第六行)
+      // 水平道路
+      ctx.fillStyle = '#A0522D';
+      ctx.fillRect(0, 5 * tileSize, tileSize, tileSize);
+      ctx.fillStyle = '#8B4513';
+      ctx.fillRect(0, 5 * tileSize + tileSize/2 - 5, tileSize, 10);
+      
+      // 垂直道路
+      ctx.fillStyle = '#A0522D';
+      ctx.fillRect(tileSize, 5 * tileSize, tileSize, tileSize);
+      ctx.fillStyle = '#8B4513';
+      ctx.fillRect(tileSize + tileSize/2 - 5, 5 * tileSize, 10, tileSize);
+      
+      // 十字路口
+      ctx.fillStyle = '#A0522D';
+      ctx.fillRect(2 * tileSize, 5 * tileSize, tileSize, tileSize);
+      ctx.fillStyle = '#8B4513';
+      ctx.fillRect(2 * tileSize, 5 * tileSize + tileSize/2 - 5, tileSize, 10);
+      ctx.fillRect(2 * tileSize + tileSize/2 - 5, 5 * tileSize, 10, tileSize);
+      
+      // T型路口
+      ctx.fillStyle = '#A0522D';
+      ctx.fillRect(3 * tileSize, 5 * tileSize, tileSize, tileSize);
+      ctx.fillStyle = '#8B4513';
+      ctx.fillRect(3 * tileSize, 5 * tileSize + tileSize/2 - 5, tileSize, 10);
+      ctx.fillRect(3 * tileSize + tileSize/2 - 5, 5 * tileSize, 10, tileSize/2);
+      
+      // 弯道
+      ctx.fillStyle = '#A0522D';
+      ctx.fillRect(4 * tileSize, 5 * tileSize, tileSize, tileSize);
+      ctx.fillStyle = '#8B4513';
+      ctx.fillRect(4 * tileSize, 5 * tileSize + tileSize/2 - 5, tileSize/2, 10);
+      ctx.fillRect(4 * tileSize + tileSize/2 - 5, 5 * tileSize, 10, tileSize/2);
+      
+      // 障碍物 (第七行)
+      // 岩石
+      ctx.fillStyle = '#696969';
+      ctx.fillRect(0, 6 * tileSize, tileSize, tileSize);
+      ctx.fillStyle = '#A9A9A9';
+      ctx.beginPath();
+      ctx.arc(tileSize/2, 6 * tileSize + tileSize/2, 12, 0, Math.PI * 2);
+      ctx.fill();
+      
+      // 树桩
+      ctx.fillStyle = '#228B22';
+      ctx.fillRect(tileSize, 6 * tileSize, tileSize, tileSize);
+      ctx.fillStyle = '#8B4513';
+      ctx.beginPath();
+      ctx.arc(tileSize + tileSize/2, 6 * tileSize + tileSize/2, 10, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = '#A0522D';
+      ctx.beginPath();
+      ctx.arc(tileSize + tileSize/2, 6 * tileSize + tileSize/2, 6, 0, Math.PI * 2);
+      ctx.fill();
+      
+      // 骷髅
+      ctx.fillStyle = '#000000';
+      ctx.fillRect(2 * tileSize, 6 * tileSize, tileSize, tileSize);
+      ctx.fillStyle = '#FFFFFF';
+      // 头骨
+      ctx.beginPath();
+      ctx.arc(2 * tileSize + tileSize/2, 6 * tileSize + 12, 8, 0, Math.PI * 2);
+      ctx.fill();
+      // 眼睛
+      ctx.fillStyle = '#000000';
+      ctx.beginPath();
+      ctx.arc(2 * tileSize + tileSize/2 - 3, 6 * tileSize + 10, 2, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.beginPath();
+      ctx.arc(2 * tileSize + tileSize/2 + 3, 6 * tileSize + 10, 2, 0, Math.PI * 2);
+      ctx.fill();
+      // 骨头
+      ctx.fillStyle = '#FFFFFF';
+      ctx.fillRect(2 * tileSize + tileSize/2 - 8, 6 * tileSize + 22, 16, 3);
+      ctx.fillRect(2 * tileSize + tileSize/2 - 6, 6 * tileSize + 26, 12, 3);
+      
+      // 蜘蛛网
+      ctx.fillStyle = '#EFEFEF';
+      ctx.fillRect(3 * tileSize, 6 * tileSize, tileSize, tileSize);
+      ctx.strokeStyle = '#FFFFFF';
+      ctx.lineWidth = 1;
+      // 绘制蜘蛛网
+      ctx.beginPath();
+      for (let i = 0; i < 8; i++) {
+        const angle = (i / 8) * Math.PI * 2;
+        ctx.moveTo(3 * tileSize + tileSize/2, 6 * tileSize + tileSize/2);
+        ctx.lineTo(
+          3 * tileSize + tileSize/2 + Math.cos(angle) * tileSize/2,
+          6 * tileSize + tileSize/2 + Math.sin(angle) * tileSize/2
+        );
+      }
+      ctx.stroke();
+      for (let r = 5; r < tileSize/2; r += 5) {
+        ctx.beginPath();
+        ctx.arc(3 * tileSize + tileSize/2, 6 * tileSize + tileSize/2, r, 0, Math.PI * 2);
+        ctx.stroke();
+      }
+      
+      // 绘制网格
+      drawGrid(ctx, canvas.width, canvas.height, tileSize);
+    }
+    
+    // 辅助函数：调整颜色亮度
+    function addColorShade(color, percent) {
+      let R = parseInt(color.substring(1,3), 16);
+      let G = parseInt(color.substring(3,5), 16);
+      let B = parseInt(color.substring(5,7), 16);
+
+      R = parseInt(R * (100 + percent) / 100);
+      G = parseInt(G * (100 + percent) / 100);
+      B = parseInt(B * (100 + percent) / 100);
+
+      R = (R<255)?R:255;  
+      G = (G<255)?G:255;  
+      B = (B<255)?B:255;  
+
+      R = (R<0)?0:R;  
+      G = (G<0)?0:G;  
+      B = (B<0)?0:B;  
+
+      const RR = ((R.toString(16).length==1)?"0"+R.toString(16):R.toString(16));
+      const GG = ((G.toString(16).length==1)?"0"+G.toString(16):G.toString(16));
+      const BB = ((B.toString(16).length==1)?"0"+B.toString(16):B.toString(16));
+
+      return "#"+RR+GG+BB;
+    }
+    
+    // 绘制圆角矩形的辅助函数
+    function roundRect(ctx, x, y, width, height, radius, fill, stroke) {
+      if (typeof radius === 'undefined') {
+        radius = 5;
+      }
+      if (typeof radius === 'number') {
+        radius = {tl: radius, tr: radius, br: radius, bl: radius};
+      } else {
+        var defaultRadius = {tl: 0, tr: 0, br: 0, bl: 0};
+        for (var side in defaultRadius) {
+          radius[side] = radius[side] || defaultRadius[side];
+        }
+      }
+      ctx.beginPath();
+      ctx.moveTo(x + radius.tl, y);
+      ctx.lineTo(x + width - radius.tr, y);
+      ctx.quadraticCurveTo(x + width, y, x + width, y + radius.tr);
+      ctx.lineTo(x + width, y + height - radius.br);
+      ctx.quadraticCurveTo(x + width, y + height, x + width - radius.br, y + height);
+      ctx.lineTo(x + radius.bl, y + height);
+      ctx.quadraticCurveTo(x, y + height, x, y + height - radius.bl);
+      ctx.lineTo(x, y + radius.tl);
+      ctx.quadraticCurveTo(x, y, x + radius.tl, y);
+      ctx.closePath();
+      if (fill) {
+        ctx.fill();
+      }
+      if (stroke) {
+        ctx.stroke();
+      }
+    }
+    
+    // 绘制角色精灵图
+    function drawPlayerSprite() {
+      const canvas = document.getElementById('playerCanvas');
+      const ctx = canvas.getContext('2d');
+      
+      // 清除画布
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      
+      const spriteWidth = 64;
+      const spriteHeight = 64;
+      
+      // 像素风格颜色
+      const skinColor = '#e0a878'; // 肤色
+      const hairColor = '#8b4d2b'; // 棕色头发
+      const bodyColor = '#a44a3f'; // 红棕色衣服
+      const pantsColor = '#4a5580'; // 蓝灰色裤子
+      const shoesColor = '#3c3c3c'; // 深灰色鞋子
+      const outlineColor = '#000000'; // 黑色轮廓
+      const eyeColor = '#64a8e0'; // 蓝色眼睛
+      const weaponColor = '#e0e0e0'; // 武器颜色
+      
+      // 创建12帧动画 (4方向 x 3帧)
+      for (let frame = 0; frame < 12; frame++) {
+        const x = (frame % 12) * spriteWidth;
+        const y = 0;
+        const direction = Math.floor(frame / 3); // 0=下, 1=左, 2=右, 3=上
+        const frameInCycle = frame % 3; // 0,1,2是走路循环
+        
+        // 走路动画参数 - 像素风格通常用腿部偏移而不是弹跳来表现走路
+        const legOffset = frameInCycle === 1 ? 2 : (frameInCycle === 0 ? -2 : 0);
+        
+        // 设置像素风绘图样式
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = outlineColor;
+        
+        // 禁用抗锯齿，保持像素风格清晰
+        ctx.imageSmoothingEnabled = false;
+        
+        // 从下到上绘制角色
+        
+        // 1. 绘制鞋子
+        ctx.fillStyle = shoesColor;
+        if (direction === 0 || direction === 3) { // 上/下方向
+          // 左鞋
+          ctx.fillRect(x + 21 + legOffset, y + 52, 8, 4);
+          ctx.strokeRect(x + 21 + legOffset, y + 52, 8, 4);
+          
+          // 右鞋
+          ctx.fillRect(x + 35 - legOffset, y + 52, 8, 4);
+          ctx.strokeRect(x + 35 - legOffset, y + 52, 8, 4);
+        } else if (direction === 1) { // 左方向
+          ctx.fillRect(x + 25, y + 52 + legOffset, 10, 4);
+          ctx.strokeRect(x + 25, y + 52 + legOffset, 10, 4);
+        } else if (direction === 2) { // 右方向
+          ctx.fillRect(x + 29, y + 52 + legOffset, 10, 4);
+          ctx.strokeRect(x + 29, y + 52 + legOffset, 10, 4);
+        }
+        
+        // 2. 绘制裤子/腿
+        ctx.fillStyle = pantsColor;
+        if (direction === 0 || direction === 3) { // 上/下方向
+          // 左腿
+          ctx.fillRect(x + 23 + legOffset, y + 40, 6, 12);
+          ctx.strokeRect(x + 23 + legOffset, y + 40, 6, 12);
+          
+          // 右腿
+          ctx.fillRect(x + 35 - legOffset, y + 40, 6, 12);
+          ctx.strokeRect(x + 35 - legOffset, y + 40, 6, 12);
+        } else if (direction === 1) { // 左方向
+          ctx.fillRect(x + 27, y + 40, 8, 12);
+          ctx.strokeRect(x + 27, y + 40, 8, 12);
+        } else if (direction === 2) { // 右方向
+          ctx.fillRect(x + 29, y + 40, 8, 12);
+          ctx.strokeRect(x + 29, y + 40, 8, 12);
+        }
+        
+        // 3. 绘制身体/上衣
+        ctx.fillStyle = bodyColor;
+        if (direction === 0 || direction === 3) { // 上/下方向
+          ctx.fillRect(x + 20, y + 24, 24, 16);
+          ctx.strokeRect(x + 20, y + 24, 24, 16);
+        } else if (direction === 1) { // 左方向
+          ctx.fillRect(x + 24, y + 24, 14, 16);
+          ctx.strokeRect(x + 24, y + 24, 14, 16);
+        } else if (direction === 2) { // 右方向
+          ctx.fillRect(x + 26, y + 24, 14, 16);
+          ctx.strokeRect(x + 26, y + 24, 14, 16);
+        }
+        
+        // 4. 绘制手臂和手持武器
+        const armOffset = frameInCycle === 1 ? 2 : (frameInCycle === 0 ? -2 : 0);
+        
+        if (direction === 0 || direction === 3) { // 上/下方向
+          // 左手臂
+          ctx.fillStyle = bodyColor;
+          ctx.fillRect(x + 16 + armOffset, y + 26, 4, 10);
+          ctx.strokeRect(x + 16 + armOffset, y + 26, 4, 10);
+          
+          // 右手臂
+          ctx.fillRect(x + 44 - armOffset, y + 26, 4, 10);
+          ctx.strokeRect(x + 44 - armOffset, y + 26, 4, 10);
+          
+          // 左手
+          ctx.fillStyle = skinColor;
+          ctx.fillRect(x + 15 + armOffset, y + 36, 6, 4);
+          ctx.strokeRect(x + 15 + armOffset, y + 36, 6, 4);
+          
+          // 右手
+          ctx.fillRect(x + 43 - armOffset, y + 36, 6, 4);
+          ctx.strokeRect(x + 43 - armOffset, y + 36, 6, 4);
+        } else if (direction === 1) { // 左方向
+          // 左手臂
+          ctx.fillStyle = bodyColor;
+          ctx.fillRect(x + 20 + armOffset, y + 26, 4, 10);
+          ctx.strokeRect(x + 20 + armOffset, y + 26, 4, 10);
+          
+          // 左手
+          ctx.fillStyle = skinColor;
+          ctx.fillRect(x + 19 + armOffset, y + 36, 6, 4);
+          ctx.strokeRect(x + 19 + armOffset, y + 36, 6, 4);
+          
+          // 武器 - 剑
+          ctx.fillStyle = weaponColor; // 白色剑刃
+          // 剑刃
+          ctx.fillRect(x + 8, y + 32, 12, 3);
+          ctx.strokeRect(x + 8, y + 32, 12, 3);
+          // 剑尖
+          ctx.fillRect(x + 6, y + 31, 2, 5);
+          ctx.strokeRect(x + 6, y + 31, 2, 5);
+          // 剑柄
+          ctx.fillStyle = '#8b4d2b'; // 棕色剑柄
+          ctx.fillRect(x + 20, y + 32, 4, 3);
+          ctx.strokeRect(x + 20, y + 32, 4, 3);
+        } else if (direction === 2) { // 右方向
+          // 右手臂
+          ctx.fillStyle = bodyColor;
+          ctx.fillRect(x + 40 - armOffset, y + 26, 4, 10);
+          ctx.strokeRect(x + 40 - armOffset, y + 26, 4, 10);
+          
+          // 右手
+          ctx.fillStyle = skinColor;
+          ctx.fillRect(x + 39 - armOffset, y + 36, 6, 4);
+          ctx.strokeRect(x + 39 - armOffset, y + 36, 6, 4);
+          
+          // 武器 - 剑
+          ctx.fillStyle = weaponColor; // 白色剑刃
+          // 剑刃
+          ctx.fillRect(x + 44, y + 32, 12, 3);
+          ctx.strokeRect(x + 44, y + 32, 12, 3);
+          // 剑尖
+          ctx.fillRect(x + 56, y + 31, 2, 5);
+          ctx.strokeRect(x + 56, y + 31, 2, 5);
+          // 剑柄
+          ctx.fillStyle = '#8b4d2b'; // 棕色剑柄
+          ctx.fillRect(x + 40, y + 32, 4, 3);
+          ctx.strokeRect(x + 40, y + 32, 4, 3);
+        }
+        
+        // 5. 绘制头部 - 像素风格通常头部较小
+        ctx.fillStyle = skinColor;
+        if (direction === 0) { // 向下看
+          // 头部
+          ctx.fillRect(x + 24, y + 12, 16, 12);
+          ctx.strokeRect(x + 24, y + 12, 16, 12);
+          
+          // 头发
+          ctx.fillStyle = hairColor;
+          // 头顶头发
+          ctx.fillRect(x + 24, y + 8, 16, 4);
+          ctx.strokeRect(x + 24, y + 8, 16, 4);
+          
+          // 侧面头发
+          ctx.fillRect(x + 20, y + 12, 4, 8);
+          ctx.strokeRect(x + 20, y + 12, 4, 8);
+          
+          ctx.fillRect(x + 40, y + 12, 4, 8);
+          ctx.strokeRect(x + 40, y + 12, 4, 8);
+          
+          // 眼睛
+          ctx.fillStyle = eyeColor;
+          ctx.fillRect(x + 28, y + 16, 2, 2);
+          ctx.fillRect(x + 34, y + 16, 2, 2);
+          
+          // 胡子/嘴巴
+          ctx.fillStyle = '#5e3a21'; // 深棕色胡子
+          ctx.fillRect(x + 30, y + 20, 4, 2);
+        } else if (direction === 1) { // 向左看
+          // 头部
+          ctx.fillRect(x + 26, y + 12, 12, 12);
+          ctx.strokeRect(x + 26, y + 12, 12, 12);
+          
+          // 头发
+          ctx.fillStyle = hairColor;
+          // 头顶头发
+          ctx.fillRect(x + 26, y + 8, 12, 4);
+          ctx.strokeRect(x + 26, y + 8, 12, 4);
+          
+          // 侧面头发
+          ctx.fillRect(x + 22, y + 12, 4, 8);
+          ctx.strokeRect(x + 22, y + 12, 4, 8);
+          
+          // 眼睛
+          ctx.fillStyle = eyeColor;
+          ctx.fillRect(x + 27, y + 16, 2, 2);
+          
+          // 胡子/嘴巴
+          ctx.fillStyle = '#5e3a21'; // 深棕色胡子
+          ctx.fillRect(x + 28, y + 20, 3, 2);
+        } else if (direction === 2) { // 向右看
+          // 头部
+          ctx.fillRect(x + 26, y + 12, 12, 12);
+          ctx.strokeRect(x + 26, y + 12, 12, 12);
+          
+          // 头发
+          ctx.fillStyle = hairColor;
+          // 头顶头发
+          ctx.fillRect(x + 26, y + 8, 12, 4);
+          ctx.strokeRect(x + 26, y + 8, 12, 4);
+          
+          // 侧面头发
+          ctx.fillRect(x + 38, y + 12, 4, 8);
+          ctx.strokeRect(x + 38, y + 12, 4, 8);
+          
+          // 眼睛
+          ctx.fillStyle = eyeColor;
+          ctx.fillRect(x + 35, y + 16, 2, 2);
+          
+          // 胡子/嘴巴
+          ctx.fillStyle = '#5e3a21'; // 深棕色胡子
+          ctx.fillRect(x + 33, y + 20, 3, 2);
+        } else { // 向上看
+          // 后脑勺
+          ctx.fillStyle = hairColor;
+          ctx.fillRect(x + 24, y + 12, 16, 12);
+          ctx.strokeRect(x + 24, y + 12, 16, 12);
+        }
+        
+        // 6. 添加像素风格的小细节 - 装备
+        if (direction === 0) {
+          // 肩部护甲点缀
+          ctx.fillStyle = '#6d341e'; // 深棕色装饰
+          ctx.fillRect(x + 20, y + 24, 4, 4);
+          ctx.strokeRect(x + 20, y + 24, 4, 4);
+          
+          ctx.fillRect(x + 40, y + 24, 4, 4);
+          ctx.strokeRect(x + 40, y + 24, 4, 4);
+          
+          // 胸前装饰/纽扣
+          ctx.fillStyle = '#f0d078'; // 金色装饰
+          ctx.fillRect(x + 30, y + 28, 4, 4);
+          ctx.strokeRect(x + 30, y + 28, 4, 4);
+        }
+      }
+      
+      // 绘制网格
+      drawGrid(ctx, canvas.width, canvas.height, spriteWidth);
+    }
+    
+    // 绘制Logo
+    function drawLogo() {
+      const canvas = document.getElementById('logoCanvas');
+      const ctx = canvas.getContext('2d');
+      
+      // 清除画布
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      
+      // 设置背景 - 暗色渐变
+      const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+      gradient.addColorStop(0, '#0D1B2A');
+      gradient.addColorStop(1, '#1B263B');
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      
+      // 添加装饰性边框
+      ctx.strokeStyle = '#E0E1DD';
+      ctx.lineWidth = 4;
+      ctx.strokeRect(20, 20, canvas.width - 40, canvas.height - 40);
+      
+      // 添加角落装饰
+      drawCornerDecoration(ctx, 20, 20, 30, 30);
+      drawCornerDecoration(ctx, canvas.width - 20, 20, -30, 30);
+      drawCornerDecoration(ctx, 20, canvas.height - 20, 30, -30);
+      drawCornerDecoration(ctx, canvas.width - 20, canvas.height - 20, -30, -30);
+      
+      // 添加像素风格背景元素
+      drawPixelBackgroundElements(ctx, canvas.width, canvas.height);
+      
+      // 绘制标题文字 - 像素风格
+      drawPixelText(ctx, '像素风流放之路', canvas.width / 2, canvas.height / 2 - 40, 36, '#FFD700');
+      
+      // 绘制副标题 - 英文
+      drawPixelText(ctx, 'Pixel Path of Exile', canvas.width / 2, canvas.height / 2 + 30, 24, '#4CC9F0');
+      
+      // 添加版本号
+      ctx.font = '16px monospace';
+      ctx.fillStyle = '#E0E1DD';
+      ctx.textAlign = 'right';
+      ctx.textBaseline = 'bottom';
+      ctx.fillText('Version 0.1.0', canvas.width - 30, canvas.height - 30);
+      
+      // 添加落款
+      ctx.font = '14px monospace';
+      ctx.fillStyle = '#E0E1DD';
+      ctx.textAlign = 'left';
+      ctx.textBaseline = 'bottom';
+      ctx.fillText('© 2023 PoE Studio', 30, canvas.height - 30);
+    }
+    
+    // 绘制角落装饰
+    function drawCornerDecoration(ctx, x, y, width, height) {
+      ctx.strokeStyle = '#778DA9';
+      ctx.lineWidth = 2;
+      
+      // 水平线
+      ctx.beginPath();
+      ctx.moveTo(x, y);
+      ctx.lineTo(x + width, y);
+      ctx.stroke();
+      
+      // 垂直线
+      ctx.beginPath();
+      ctx.moveTo(x, y);
+      ctx.lineTo(x, y + height);
+      ctx.stroke();
+      
+      // 对角装饰
+      ctx.fillStyle = '#E0E1DD';
+      ctx.beginPath();
+      ctx.arc(x, y, 6, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    
+    // 绘制像素风格背景元素
+    function drawPixelBackgroundElements(ctx, width, height) {
+      // 添加一些随机像素方块作为背景装饰
+      for (let i = 0; i < 30; i++) {
+        const size = 3 + Math.random() * 8;
+        const x = 40 + Math.random() * (width - 80);
+        const y = 40 + Math.random() * (height - 80);
+        const opacity = 0.1 + Math.random() * 0.2;
+        
+        ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
+        ctx.fillRect(Math.floor(x), Math.floor(y), size, size);
+      }
+      
+      // 添加一些装饰性线条
+      ctx.strokeStyle = 'rgba(119, 141, 169, 0.3)';
+      ctx.lineWidth = 1;
+      
+      // 水平线
+      for (let i = 0; i < 5; i++) {
+        const y = 50 + Math.random() * (height - 100);
+        ctx.beginPath();
+        ctx.moveTo(40, y);
+        ctx.lineTo(width - 40, y);
+        ctx.stroke();
+      }
+      
+      // 垂直线
+      for (let i = 0; i < 3; i++) {
+        const x = 60 + Math.random() * (width - 120);
+        ctx.beginPath();
+        ctx.moveTo(x, 40);
+        ctx.lineTo(x, height - 40);
+        ctx.stroke();
+      }
+    }
+    
+    // 绘制像素风格文字
+    function drawPixelText(ctx, text, x, y, fontSize, color) {
+      // 第一步：普通绘制文字作为基础
+      ctx.font = `bold ${fontSize}px "Microsoft YaHei", sans-serif`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      
+      // 添加文字阴影效果
+      ctx.shadowColor = 'rgba(0, 0, 0, 0.7)';
+      ctx.shadowBlur = 10;
+      ctx.shadowOffsetX = 4;
+      ctx.shadowOffsetY = 4;
+      
+      // 描边
+      ctx.strokeStyle = '#000';
+      ctx.lineWidth = 5;
+      ctx.strokeText(text, x, y);
+      
+      // 主色填充
+      ctx.fillStyle = color;
+      ctx.fillText(text, x, y);
+      
+      // 清除阴影设置
+      ctx.shadowColor = 'transparent';
+      ctx.shadowBlur = 0;
+      ctx.shadowOffsetX = 0;
+      ctx.shadowOffsetY = 0;
+      
+      // 高光效果
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
+      ctx.font = `bold ${fontSize * 0.98}px "Microsoft YaHei", sans-serif`;
+      ctx.fillText(text, x - 2, y - 2);
+    }
+    
+    // 下载功能
+    function downloadCanvas(canvas, filename) {
+      const link = document.createElement('a');
+      link.download = filename;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    }
+    
+    // 初始化
+    window.onload = function() {
+      // 绘制瓦片集
+      drawTileset();
+      
+      // 绘制角色精灵图
+      drawPlayerSprite();
+      
+      // 绘制Logo
+      drawLogo();
+      
+      // 添加下载按钮事件
+      document.getElementById('downloadTileset').addEventListener('click', function() {
+        downloadCanvas(document.getElementById('tilesetCanvas'), 'dungeon.png');
+      });
+      
+      document.getElementById('downloadPlayer').addEventListener('click', function() {
+        downloadCanvas(document.getElementById('playerCanvas'), 'player.png');
+      });
+      
+      document.getElementById('downloadLogo').addEventListener('click', function() {
+        downloadCanvas(document.getElementById('logoCanvas'), 'logo.png');
+      });
+    };
+  </script>
+</body>
+</html> 

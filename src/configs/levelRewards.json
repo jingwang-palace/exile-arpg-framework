@@ -1,0 +1,44 @@
+{
+  "baseReward": {
+    "talentPoints": 1
+  },
+  "specialLevels": {
+    "5": {
+      "talentPoints": 2,
+      "healthBonus": 20
+    },
+    "10": {
+      "talentPoints": 2,
+      "manaBonus": 20
+    },
+    "15": {
+      "talentPoints": 2,
+      "attributePoints": 1
+    },
+    "20": {
+      "talentPoints": 2,
+      "healthBonus": 30,
+      "manaBonus": 30
+    },
+    "25": {
+      "talentPoints": 2,
+      "attributePoints": 1
+    },
+    "30": {
+      "talentPoints": 2,
+      "healthBonus": 40,
+      "manaBonus": 40
+    },
+    "40": {
+      "talentPoints": 2,
+      "attributePoints": 2
+    },
+    "50": {
+      "talentPoints": 3,
+      "attributePoints": 3,
+      "healthBonus": 50,
+      "manaBonus": 50
+    }
+  },
+  "maxLevel": 50
+} 

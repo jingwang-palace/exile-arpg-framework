@@ -1,0 +1,259 @@
+{
+  "id": "warrior_tree",
+  "name": "战士天赋树",
+  "description": "专注于力量和近战战斗的天赋树",
+  "characterClass": "warrior",
+  "nodes": [
+    {
+      "id": "warrior_core_strength",
+      "name": "基础力量",
+      "description": "增加基础力量属性",
+      "icon": "strength",
+      "category": "offense",
+      "type": "stat_boost",
+      "maxPoints": 5,
+      "effects": [
+        {
+          "type": "attribute",
+          "target": "strength",
+          "value": 2,
+          "description": "增加2点力量"
+        },
+        {
+          "type": "attribute",
+          "target": "attack_damage",
+          "value": 3,
+          "description": "增加3点攻击伤害"
+        }
+      ],
+      "position": { "x": 0, "y": 0 },
+      "connections": ["warrior_armor_mastery", "warrior_weapon_expertise"]
+    },
+    {
+      "id": "warrior_armor_mastery",
+      "name": "护甲精通",
+      "description": "提高护甲值和生命上限",
+      "icon": "armor",
+      "category": "defense",
+      "type": "stat_boost",
+      "maxPoints": 3,
+      "effects": [
+        {
+          "type": "attribute",
+          "target": "armor",
+          "value": 5,
+          "description": "增加5点护甲"
+        },
+        {
+          "type": "attribute",
+          "target": "max_health",
+          "value": 10,
+          "description": "增加10点最大生命值"
+        }
+      ],
+      "position": { "x": -2, "y": 1 },
+      "connections": ["warrior_core_strength", "warrior_tough_skin"]
+    },
+    {
+      "id": "warrior_weapon_expertise",
+      "name": "武器专精",
+      "description": "提高攻击速度和暴击几率",
+      "icon": "sword",
+      "category": "offense",
+      "type": "stat_boost",
+      "maxPoints": 3,
+      "effects": [
+        {
+          "type": "attribute",
+          "target": "attack_speed",
+          "value": 0.05,
+          "isPercentage": true,
+          "description": "增加5%攻击速度"
+        },
+        {
+          "type": "attribute",
+          "target": "critical_chance",
+          "value": 0.02,
+          "isPercentage": true,
+          "description": "增加2%暴击几率"
+        }
+      ],
+      "position": { "x": 2, "y": 1 },
+      "connections": ["warrior_core_strength", "warrior_precise_strikes"]
+    },
+    {
+      "id": "warrior_tough_skin",
+      "name": "坚韧皮肤",
+      "description": "提高伤害减免",
+      "icon": "tough_skin",
+      "category": "defense",
+      "type": "stat_boost",
+      "maxPoints": 3,
+      "effects": [
+        {
+          "type": "attribute",
+          "target": "damage_reduction",
+          "value": 0.03,
+          "isPercentage": true,
+          "description": "增加3%伤害减免"
+        }
+      ],
+      "position": { "x": -3, "y": 2 },
+      "connections": ["warrior_armor_mastery", "warrior_shield_wall"]
+    },
+    {
+      "id": "warrior_shield_wall",
+      "name": "盾墙",
+      "description": "大幅提高格挡几率",
+      "icon": "shield",
+      "category": "defense",
+      "type": "stat_boost",
+      "maxPoints": 3,
+      "effects": [
+        {
+          "type": "attribute",
+          "target": "block_chance",
+          "value": 0.05,
+          "isPercentage": true,
+          "description": "增加5%格挡几率"
+        }
+      ],
+      "position": { "x": -4, "y": 3 },
+      "connections": ["warrior_tough_skin", "warrior_unyielding"]
+    },
+    {
+      "id": "warrior_unyielding",
+      "name": "坚不可摧",
+      "description": "受到致命伤害时，有几率保留1点生命值",
+      "icon": "unyielding",
+      "category": "special",
+      "type": "unique_effect",
+      "maxPoints": 1,
+      "effects": [
+        {
+          "type": "unique",
+          "value": 0.2,
+          "isPercentage": true,
+          "description": "受到致命伤害时，有20%几率保留1点生命值，冷却时间30秒"
+        }
+      ],
+      "position": { "x": -5, "y": 4 },
+      "connections": ["warrior_shield_wall"],
+      "requiredPoints": 8
+    },
+    {
+      "id": "warrior_precise_strikes",
+      "name": "精准打击",
+      "description": "提高暴击伤害",
+      "icon": "precise",
+      "category": "offense",
+      "type": "stat_boost",
+      "maxPoints": 3,
+      "effects": [
+        {
+          "type": "attribute",
+          "target": "critical_damage",
+          "value": 0.1,
+          "isPercentage": true,
+          "description": "增加10%暴击伤害"
+        }
+      ],
+      "position": { "x": 3, "y": 2 },
+      "connections": ["warrior_weapon_expertise", "warrior_battle_rage"]
+    },
+    {
+      "id": "warrior_battle_rage",
+      "name": "战斗怒火",
+      "description": "攻击时有几率获得额外怒气",
+      "icon": "rage",
+      "category": "utility",
+      "type": "unique_effect",
+      "maxPoints": 3,
+      "effects": [
+        {
+          "type": "unique",
+          "value": 0.1,
+          "isPercentage": true,
+          "description": "攻击时有10%几率获得5点额外怒气"
+        }
+      ],
+      "position": { "x": 4, "y": 3 },
+      "connections": ["warrior_precise_strikes", "warrior_berserker"]
+    },
+    {
+      "id": "warrior_berserker",
+      "name": "狂暴",
+      "description": "生命值低于30%时，攻击速度和攻击伤害提高",
+      "icon": "berserker",
+      "category": "special",
+      "type": "unique_effect",
+      "maxPoints": 1,
+      "effects": [
+        {
+          "type": "unique",
+          "value": 0.25,
+          "isPercentage": true,
+          "description": "生命值低于30%时，攻击速度和攻击伤害提高25%"
+        }
+      ],
+      "position": { "x": 5, "y": 4 },
+      "connections": ["warrior_battle_rage"],
+      "requiredPoints": 8
+    },
+    {
+      "id": "warrior_cleave_mastery",
+      "name": "横扫精通",
+      "description": "增强横扫技能的效果",
+      "icon": "cleave",
+      "category": "offense",
+      "type": "skill_boost",
+      "maxPoints": 3,
+      "effects": [
+        {
+          "type": "skill",
+          "target": "cleave",
+          "value": 0.15,
+          "isPercentage": true,
+          "description": "伤害提高"
+        },
+        {
+          "type": "skill",
+          "target": "cleave",
+          "value": 0.1,
+          "isPercentage": true,
+          "description": "范围提高"
+        }
+      ],
+      "position": { "x": 0, "y": 3 },
+      "connections": ["warrior_armor_mastery", "warrior_weapon_expertise"],
+      "requiredPoints": 5
+    },
+    {
+      "id": "warrior_whirlwind_mastery",
+      "name": "旋风斩精通",
+      "description": "增强旋风斩技能的效果",
+      "icon": "whirlwind",
+      "category": "offense",
+      "type": "skill_boost",
+      "maxPoints": 3,
+      "effects": [
+        {
+          "type": "skill",
+          "target": "whirlwind",
+          "value": 0.2,
+          "isPercentage": true,
+          "description": "伤害提高"
+        },
+        {
+          "type": "skill",
+          "target": "whirlwind",
+          "value": 1000,
+          "description": "持续时间提高"
+        }
+      ],
+      "position": { "x": 0, "y": 5 },
+      "connections": ["warrior_cleave_mastery"],
+      "requiredPoints": 10
+    }
+  ]
+} 

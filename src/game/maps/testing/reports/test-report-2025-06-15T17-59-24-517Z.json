@@ -1,0 +1,123 @@
+{
+  "timestamp": 1750010364350,
+  "mapId": "test-map",
+  "testResults": [
+    {
+      "name": "地图优化测试",
+      "status": "PASSED",
+      "duration": 100,
+      "error": null
+    },
+    {
+      "name": "地图评分测试",
+      "status": "PASSED",
+      "duration": 100,
+      "error": null
+    },
+    {
+      "name": "性能监控测试",
+      "status": "PASSED",
+      "duration": 5000,
+      "error": null
+    }
+  ],
+  "performanceReport": {
+    "timestamp": 1750010364350,
+    "mapId": "test-map",
+    "regionCount": 5,
+    "connectionCount": 5,
+    "memoryUsage": 1056256,
+    "bottlenecks": []
+  },
+  "optimizationReport": {
+    "timestamp": 1750010364350,
+    "mapId": "test-map",
+    "suggestions": [
+      {
+        "type": "region_layout",
+        "priority": "high",
+        "description": "区域分布不均衡",
+        "impact": "可能导致游戏体验不一致",
+        "implementation": "调整区域位置使分布更均匀",
+        "expectedImprovement": "提高游戏体验的连贯性",
+        "affectedRegions": [
+          "spawn",
+          "treasure",
+          "boss"
+        ]
+      },
+      {
+        "type": "connection_structure",
+        "priority": "high",
+        "description": "存在连接不足的区域",
+        "impact": "可能导致区域无法到达或游戏体验受限",
+        "implementation": "为这些区域添加更多连接",
+        "expectedImprovement": "提高地图的可访问性",
+        "affectedRegions": [
+          "spawn"
+        ]
+      },
+      {
+        "type": "balance",
+        "priority": "high",
+        "description": "战斗区域数量不足",
+        "impact": "可能导致游戏体验不足",
+        "implementation": "添加更多战斗区域",
+        "expectedImprovement": "提高游戏体验的丰富度"
+      }
+    ],
+    "performanceReport": {
+      "timestamp": 1750010364350,
+      "mapId": "test-map",
+      "regionCount": 5,
+      "connectionCount": 5,
+      "memoryUsage": 1056256,
+      "bottlenecks": []
+    },
+    "summary": {
+      "totalSuggestions": 3,
+      "byPriority": {
+        "low": 0,
+        "medium": 0,
+        "high": 3,
+        "critical": 0
+      },
+      "byType": {
+        "region_layout": 1,
+        "connection_structure": 1,
+        "performance": 0,
+        "gameplay": 0,
+        "balance": 1
+      }
+    }
+  },
+  "mapRating": {
+    "overall": 82,
+    "gameplay": 92.5,
+    "balance": 56.66666666666666,
+    "performance": 99.99999999999999,
+    "layout": 80,
+    "details": {
+      "pathLength": 100,
+      "teleporterCount": 100,
+      "regionVariety": 80,
+      "combatBalance": 20,
+      "treasureDistribution": 100,
+      "difficultyProgression": 50,
+      "regionCount": 100,
+      "connectionCount": 100,
+      "memoryUsage": 100
+    },
+    "timestamp": 1750010364351,
+    "mapId": "test-map"
+  },
+  "summary": {
+    "totalTests": 3,
+    "passedTests": 3,
+    "failedTests": 0,
+    "skippedTests": 0,
+    "performanceScore": 99.99999999999999,
+    "optimizationScore": 100,
+    "overallRating": 82
+  }
+}
